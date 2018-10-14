@@ -23,6 +23,7 @@
  */
 package com.dogiz.zoozpaymentsos.beans;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 /**
@@ -32,8 +33,19 @@ import java.util.Map;
  * in correct respond request methods
  */
 public class PaymentMethod {
-    String token;
+    String cardNumber;
     String creditCardCvv;
+    String expirationMonth;
+    String expirationYear;
+    String expirationDate;
+    String holderName;
+    @SerializedName("last_4_digits")
+    String last4Digits;
+    String tokenType;
+    String token;
+    BillingAddress billingAddress;
+    IdentityDocument identityDocument;
+    
     String type;
     Map threeDSecureAttributes;
     Map installments;
@@ -41,18 +53,12 @@ public class PaymentMethod {
     Map providerSpecificData;
     Map cofTransactionIndicators;
     Map additionalDetails;
-    
     String href;
-    String tokenType;
     String created;
     String customer;
     String fingerprint;
     Map identityDocumen;
     String countryCode;
-    BillingAddress billingAddress;
-    String holderName;
-    String expirationDate;
-    String last4Digits;
     Boolean passLuhnValidation;
     String binNumber;
     String vendor;
@@ -60,11 +66,49 @@ public class PaymentMethod {
     String cardType;
     String level;
 
+    public PaymentMethod() {
+        this.tokenType = "credit_card";
+    }
+    
     public PaymentMethod(String token,String type) {
         this.token = token;
         this.type = type;
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getExpirationMonth() {
+        return expirationMonth;
+    }
+
+    public void setExpirationMonth(String expirationMonth) {
+        this.expirationMonth = String.format("%02d", Integer.valueOf(expirationMonth));//expirationMonth;
+    }
+
+    public String getExpirationYear() {
+        return expirationYear;
+    }
+
+    public void setExpirationYear(String expirationYear) {
+        this.expirationYear = expirationYear;
+    }
+
+    public IdentityDocument getIdentityDocument() {
+        return identityDocument;
+    }
+
+    public void setIdentityDocument(IdentityDocument identityDocument) {
+        this.identityDocument = identityDocument;
+    }
+
+    
+    
     public String getHref() {
         return href;
     }
@@ -162,12 +206,12 @@ public class PaymentMethod {
     }
 
     public String getExpirationDate() {
-        return expirationDate;
+        return getExpirationMonth() + "/" + getExpirationYear();
     }
 
-    public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+//    public void setExpirationDate(String expirationDate) {
+//        this.expirationDate = expirationDate;
+//    }
 
     public String getLast4Digits() {
         return last4Digits;
