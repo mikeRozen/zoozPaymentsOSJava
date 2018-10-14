@@ -50,19 +50,23 @@ import org.apache.http.util.EntityUtils;
  * @author Michael
  */
 public class Controller {
-     private final CloseableHttpClient httpClient;
-     ControllerSiteConfiguration config;
+     //private final CloseableHttpClient httpClient;
+     //ControllerSiteConfiguration config;
+     private final ZoozServer zoozServer;
+     
     
      public Controller(ControllerSiteConfiguration config) {
-        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
-        connManager.setMaxTotal(200);
-        this.httpClient = HttpClients.custom().setConnectionManager(connManager).build();
-        this.config = config;
+//        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+//        connManager.setMaxTotal(200);
+//        this.httpClient = HttpClients.custom().setConnectionManager(connManager).build();
+//        this.config = config;
+          this.zoozServer = new ZoozServer(config);
     }
 
     public Controller(HttpClientConnectionManager connectionManager,ControllerSiteConfiguration config) {
-        this.httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
-        this.config = config;
+        //this.httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
+        //this.config = config;
+        this.zoozServer = new ZoozServer(connectionManager, config);
     }
     
     
@@ -87,7 +91,7 @@ public class Controller {
         try {
             String uriStr = CommonParameters.ZOOZ_BASE_URL + "payments";
             JsonObject body = new JsonObject();
-            body.addProperty("amount", amount);
+            body.addProperty("amount", UnitsConverter.minorUnitConveert(amount, currency));
             body.addProperty("currency", currency);
             HttpPost httpPost = (HttpPost) httpBuidMethod("POST", uriStr, body.toString());
             
@@ -117,64 +121,23 @@ public class Controller {
         return charge;
     }
     
-    
-    
-    private HttpRequestBase httpBuidMethod(String method,String uriStr,String body) throws Exception{
-        HttpRequestBase httpMethod = null;
-        switch (method){
-            case "POST":
-                httpMethod = new HttpPost(uriStr);
-                break;
-            case "GET":
-                httpMethod = new HttpGet(uriStr);
-                break;
-            case "PUT":
-                break;
-            default:
-                break;
-        }
-        
-        if (httpMethod != null){
-            configHttp(httpMethod);
-        }
-        
-        if (body != null){
-            httpBody((HttpPost)httpMethod, body);
-        }
-        
-        return httpMethod;
-    }
-      
-    private void configHttp(HttpRequestBase httpMethod) throws Exception {
-        httpMethod.setHeader("api-version", "1.2.0");
-        httpMethod.setHeader("x-payments-os-env", config.getEnviroment());
-        httpMethod.setHeader("app-id", config.getAppId());
-        httpMethod.setHeader("private-key", config.getPrivateKey());
-        httpMethod.setHeader("Content-type", "application/json; charset=utf-8");
-        httpMethod.setConfig(config.getRequestConfig());
-    }
-    
-    private void httpBody(HttpPost httpPost, String jsonStr) throws Exception{
-         if (jsonStr == null){return;}
-         StringEntity body = new StringEntity(jsonStr);
-         httpPost.setEntity(body);
-    }
-    
-    private String sendRequest(HttpRequestBase httpMethod) throws IOException {
-        String response = null;
-        HttpResponse httpRes = httpClient.execute(httpMethod);
-        response = EntityUtils.toString(httpRes.getEntity());
-            
-        httpMethod.releaseConnection();
-        int responseCode = httpRes.getStatusLine().getStatusCode();
-        if (responseCode >= 200 && responseCode< 300){
-            return response;
-        }else{
-            System.out.println("Error response: " + response);
+    public PaymentMethod createToken(PaymentMethod paymentMethod){
+           String returnStr = null;
+        try {
+            String uriStr = CommonParameters.ZOOZ_BASE_URL + "tokens";
+            String jsonStr = JsonParser.toJsonRoot(paymentMethod);
+            HttpPost httpPost = (HttpPost)httpBuidMethod("POST", uriStr, jsonStr);
+            returnStr = sendRequest(httpPost);
+        } catch (Exception e) {
+            System.out.println("create Token Error: " + e.getMessage());
             return null;
         }
+
+        PaymentMethod paymentMethodResult = JsonParser.fromJson(returnStr, PaymentMethod.class);
+        return paymentMethodResult;
         
     }
-
+    
+    
     
 }
