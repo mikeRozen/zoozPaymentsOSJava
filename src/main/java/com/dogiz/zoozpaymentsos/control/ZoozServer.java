@@ -22,6 +22,11 @@
 
 package com.dogiz.zoozpaymentsos.control;
 
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+
 /**
  *
  * @author Michael
@@ -29,6 +34,22 @@ package com.dogiz.zoozpaymentsos.control;
 
 
 public class ZoozServer {
+     private final CloseableHttpClient httpClient;
+     ControllerSiteConfiguration config;
+     
+      public ZoozServer(ControllerSiteConfiguration config) {
+        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
+        connManager.setMaxTotal(200);
+        this.httpClient = HttpClients.custom().setConnectionManager(connManager).build();
+        this.config = config;
+          
+    }
+
+    public ZoozServer(HttpClientConnectionManager connectionManager,ControllerSiteConfiguration config) {
+        this.httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
+        this.config = config;
+     
+    }
     
     
     
