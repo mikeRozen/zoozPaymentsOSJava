@@ -27,7 +27,7 @@ package com.dogiz.zoozpaymentsos.control;
  *
  * @author Michael
  */
-public class CommonParameters {
+public class ZoozCommonParameters {
     
     public static String ZOOZ_BASE_URL = "https://api.paymentsos.com/";
     public static String PAYMENT_URL = "payments";

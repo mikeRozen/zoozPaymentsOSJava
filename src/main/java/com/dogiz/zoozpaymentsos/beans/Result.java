@@ -20,24 +20,59 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-package com.dogiz.zoozpaymentsos.control;
+package com.dogiz.zoozpaymentsos.beans;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  *
  * @author Michael
  */
-//TODO: Make Enums 
-public class UnitsConverter {    
-    public static int minorUnitConveert(int amount,String currency){
-         switch (currency){
-            case "ILS":
-            case "GBP":
-            case "USD":
-            case "EUR":
-                return amount * 100;
-            default:
-                return amount;
-        }
+
+
+public class Result {
+    String status;
+    String category;
+    @SerializedName("subCategory")
+    String subCategory;
+    String description;
+
+    public Result() {
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+    
     
 }
