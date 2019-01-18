@@ -47,10 +47,12 @@ public class JsonParser {
     }
     
     public static String toJson(Object obj){
+        if (obj == null ){return null;}
         return gson.toJson(obj);
     }
     
     public static String toJsonRoot(Object obj){
+        if (obj == null ){return null;}
         JsonObject jsonObj = new JsonObject();
         JsonElement jsonElement = gson.toJsonTree(obj);
         String className = obj.getClass().getSimpleName();

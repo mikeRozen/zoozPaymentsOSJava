@@ -48,9 +48,9 @@ public class ControllerSiteConfiguration {
      private RequestConfig createDefaultRequestConfig() {
 
         return RequestConfig.custom()
-                .setSocketTimeout(CommonParameters.HTTP_TIMEOUT_CONNECTION)
-                .setConnectTimeout(CommonParameters.HTTP_TIMEOUT_CONNECTION)
-                .setConnectionRequestTimeout(CommonParameters.HTTP_TIMEOUT_CONNECTION)
+                .setSocketTimeout(ZoozCommonParameters.HTTP_TIMEOUT_CONNECTION)
+                .setConnectTimeout(ZoozCommonParameters.HTTP_TIMEOUT_CONNECTION)
+                .setConnectionRequestTimeout(ZoozCommonParameters.HTTP_TIMEOUT_CONNECTION)
                 .build();
     }
 

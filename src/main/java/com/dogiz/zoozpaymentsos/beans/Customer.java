@@ -43,11 +43,14 @@ public class Customer {
     String modified;
     List paymentMethods;
 
+    
+    public Customer() {
+        
+    }
+    
     public Customer(String referenece) {
         this.customerReference = referenece;
     }
-    
-    
 
     public String getCustomerReference() {
         return customerReference;

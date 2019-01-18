@@ -20,24 +20,68 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 
-package com.dogiz.zoozpaymentsos.control;
+package com.dogiz.zoozpaymentsos.beans;
+
+import java.util.Map;
 
 /**
  *
  * @author Michael
  */
-//TODO: Make Enums 
-public class UnitsConverter {    
-    public static int minorUnitConveert(int amount,String currency){
-         switch (currency){
-            case "ILS":
-            case "GBP":
-            case "USD":
-            case "EUR":
-                return amount * 100;
-            default:
-                return amount;
-        }
+
+
+public class VoidResponse {
+    String id;
+    String created;
+    Map providerData;
+    Result result;
+    Map additionalDetails;
+
+    public VoidResponse() {
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public Map getProviderData() {
+        return providerData;
+    }
+
+    public void setProviderData(Map providerData) {
+        this.providerData = providerData;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
+    public Map getAdditionalDetails() {
+        return additionalDetails;
+    }
+
+    public void setAdditionalDetails(Map additionalDetails) {
+        this.additionalDetails = additionalDetails;
+    }
+    
+    
+    
+    
     
 }
